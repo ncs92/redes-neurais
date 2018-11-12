@@ -5,22 +5,37 @@ from keras.optimizers import SGD
 
 import numpy as np
 import csv
-np.random.seed(7) #fixar a semente pra sempre obter os mesmos resultados
+
+#fixar a semente pra sempre obter os mesmos resultados
 #N sei se funciona perfeitamente com a train_test_split
+np.random.seed(7) 
+
 from tensorflow.python.client import device_lib
-valores = csv.reader(open('OnlineNewsPopularity.csv','r'), delimiter=',')
+reader = csv.reader(open('OnlineNewsPopularity.csv','r'), delimiter=',')
 
-linhas = np.array(list(valores))
-labels = linhas[1, 1:60] #pega a primeira linha com valores inteira
-X = linhas[1:-1, 1:-1] 
-Y = linhas[1:-1, -1] #ultima linha
+rows = np.array(list(reader))
+labels = rows[1, 1:-1]
+X = rows[1:-1, 1:-1] 
+Ya = rows[1:-1, -1] #ultima coluna
+#print(rows)
+Y = []
 
-# print(Y.shape)
-# print(X.shape)
+index = 0
 
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
+for y in Ya:
+    if(int(y) > 1200):
+        Y.insert(index, True)
+        
+    else:
+        Y.insert(index, False)
+    
+    index += 1
+#print(rows)
 
-########## TESTE ################################
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, stratify=Y)
+#X_train, X_validation, Y_train, Y_validation = train_test_split(X_train, Y_train, test_size=0.2, stratify=Y_train)
+
+########################### TESTE ################################
 
 model = Sequential()
 qnt_entradas = len(labels)
@@ -30,8 +45,6 @@ model.add(Dense(128, init='uniform', activation='relu'))
 model.add(Dense(128, init='uniform', activation='relu'))
 
 model.add(Dense(1, activation='sigmoid'))
-
-
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']) #adam = descida do gradiente
 model.fit(X_train, Y_train, nb_epoch=50, batch_size=10)
