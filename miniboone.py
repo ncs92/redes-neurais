@@ -1,6 +1,7 @@
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
+from sklearn.model.selection import train_test_split
 
 # Generate dummy data
 x_train = np.random.random((1000, 20))
@@ -23,3 +24,7 @@ model.fit(x_train, y_train,
           epochs=20,
           batch_size=128)
 score = model.evaluate(x_test, y_test, batch_size=128)
+
+arq = open('./base/MiniBooNE_PID.txt', 'r', encoding='utf-8')
+texto = arq.read()
+x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, stratify = True)
