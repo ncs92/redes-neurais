@@ -1,0 +1,9 @@
+testar o problema do overfit
+encontrar a limiar de acuracia que ocorre a overfit
+entropia cruzada
+funcções que modificao os valores dos pesos
+quadratica: c = (1/2n) * somatorio(x) ||y..
+
+keras.regularizers
+model.add(64, ..., kernel_regularizer = kernel.regulariers.l1(0.01))
+
