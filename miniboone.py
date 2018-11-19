@@ -1,7 +1,7 @@
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
-from sklearn.model.selection import train_test_split
+from sklearn.model_selection import train_test_split
 
 # Generate dummy data
 x_train = np.random.random((1000, 20))
