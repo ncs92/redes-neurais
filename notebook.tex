@@ -872,18 +872,41 @@ Com o Dropout de 0.7 foi obtido uma taxa de acerto de 79,62\%, a figura
 
 \emph{figura 14 - Histórico de acurácia para Dropout = 0.7}
 
+    Hiperparâmetros
+
+Inicialmente será decidido o número de neuronios utilizados na segunda e
+terceira camada, como mostra o código a seguir:
+
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}29}]:} \PY{n}{model} \PY{o}{=} \PY{n}{Sequential}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{model} \PY{o}{=} \PY{n}{Sequential}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n}{model}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{Dense}\PY{p}{(}\PY{n}{units}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{input\PYZus{}dim}\PY{o}{=}\PY{n}{num\PYZus{}input}\PY{p}{)}\PY{p}{)}
+        \PY{n}{model}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{Dense}\PY{p}{(}\PY{n}{units}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+        \PY{n}{model}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sigmoid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+        
+        \PY{n}{model}\PY{o}{.}\PY{n}{compile}\PY{p}{(}\PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{binary\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+        
+        \PY{n}{history} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{validation\PYZus{}split}\PY{o}{=}\PY{l+m+mf}{0.25}\PY{p}{,} \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+
+
+    A figura 15 mostra o histórico da acurácia obtido, utilizando 20
+neurônios na segunda camada oculta. A taxa de acerto foi de 79,7\%.
+
+\includegraphics{https://uploaddeimagens.com.br/images/001/744/819/full/drop-0_7.png?1543206380}
+
+\emph{figura 15 - Histórico de acurácia para 2² camada oculta = 20}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} \PY{n}{model} \PY{o}{=} \PY{n}{Sequential}\PY{p}{(}\PY{p}{)}
          
-         \PY{n}{model}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{Dense}\PY{p}{(}\PY{n}{units}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{input\PYZus{}dim}\PY{o}{=}\PY{n}{num\PYZus{}input}\PY{p}{,} \PY{n}{activity\PYZus{}regularizer}\PY{o}{=}\PY{n}{regularizers}\PY{o}{.}\PY{n}{l1}\PY{p}{(}\PY{l+m+mf}{0.1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{model}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{Dropout}\PY{p}{(}\PY{l+m+mf}{0.7}\PY{p}{)}\PY{p}{)}
-         \PY{n}{model}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{Dense}\PY{p}{(}\PY{n}{units}\PY{o}{=}\PY{l+m+mi}{59}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{activity\PYZus{}regularizer}\PY{o}{=}\PY{n}{regularizers}\PY{o}{.}\PY{n}{l1}\PY{p}{(}\PY{l+m+mf}{0.1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{model}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{Dropout}\PY{p}{(}\PY{l+m+mf}{0.7}\PY{p}{)}\PY{p}{)}
+         \PY{n}{model}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{Dense}\PY{p}{(}\PY{n}{units}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{input\PYZus{}dim}\PY{o}{=}\PY{n}{num\PYZus{}input}\PY{p}{)}\PY{p}{)}
+         \PY{n}{model}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{Dense}\PY{p}{(}\PY{n}{units}\PY{o}{=}\PY{l+m+mi}{120}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
          \PY{n}{model}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sigmoid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
          
          \PY{n}{model}\PY{o}{.}\PY{n}{compile}\PY{p}{(}\PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{binary\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
          
-         \PY{n}{history} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{validation\PYZus{}split}\PY{o}{=}\PY{l+m+mf}{0.25}\PY{p}{,} \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+         \PY{n}{history} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{validation\PYZus{}split}\PY{o}{=}\PY{l+m+mf}{0.25}\PY{p}{,} \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
          
          \PY{n}{loss\PYZus{}and\PYZus{}metrics} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{evaluate}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
          \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{ Taxa de acerto: }\PY{l+s+si}{\PYZpc{}.2f}\PY{l+s+si}{\PYZpc{}\PYZpc{}}\PY{l+s+s2}{\PYZdq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{loss\PYZus{}and\PYZus{}metrics}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{)}
@@ -902,114 +925,54 @@ Com o Dropout de 0.7 foi obtido uma taxa de acerto de 79,62\%, a figura
 
     \begin{Verbatim}[commandchars=\\\{\}]
 Train on 20812 samples, validate on 6938 samples
-Epoch 1/50
-20812/20812 [==============================] - 15s 724us/step - loss: 372166.9499 - acc: 0.7592 - val\_loss: 140.2340 - val\_acc: 0.7981
-Epoch 2/50
-20812/20812 [==============================] - 12s 561us/step - loss: 67.4829 - acc: 0.7952 - val\_loss: 39.4249 - val\_acc: 0.7981
-Epoch 3/50
-20812/20812 [==============================] - 12s 576us/step - loss: 15.9529 - acc: 0.7954 - val\_loss: 13.4486 - val\_acc: 0.7981
-Epoch 4/50
-20812/20812 [==============================] - 13s 612us/step - loss: 5.5746 - acc: 0.7955 - val\_loss: 10.4042 - val\_acc: 0.7979
-Epoch 5/50
-20812/20812 [==============================] - 13s 630us/step - loss: 2.2009 - acc: 0.7955 - val\_loss: 10.3301 - val\_acc: 0.7981
-Epoch 6/50
-20812/20812 [==============================] - 12s 592us/step - loss: 1.2307 - acc: 0.7956 - val\_loss: 10.3297 - val\_acc: 0.7981
-Epoch 7/50
-20812/20812 [==============================] - 14s 676us/step - loss: 0.5581 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 8/50
-20812/20812 [==============================] - 14s 649us/step - loss: 0.5066 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 9/50
-20812/20812 [==============================] - 13s 603us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 10/50
-20812/20812 [==============================] - 11s 546us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 11/50
-20812/20812 [==============================] - 12s 570us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 12/50
-20812/20812 [==============================] - 14s 676us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 13/50
-20812/20812 [==============================] - 13s 639us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 14/50
-20812/20812 [==============================] - 12s 577us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 15/50
-20812/20812 [==============================] - 13s 617us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 16/50
-20812/20812 [==============================] - 21s 988us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 17/50
-20812/20812 [==============================] - 17s 798us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 18/50
-20812/20812 [==============================] - 14s 675us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3295 - val\_acc: 0.7981
-Epoch 19/50
-20812/20812 [==============================] - 14s 669us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3295 - val\_acc: 0.7981
-Epoch 20/50
-20812/20812 [==============================] - 15s 709us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 21/50
-20812/20812 [==============================] - 13s 621us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 22/50
-20812/20812 [==============================] - 14s 673us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3295 - val\_acc: 0.7981
-Epoch 23/50
-20812/20812 [==============================] - 13s 620us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3295 - val\_acc: 0.7981
-Epoch 24/50
-20812/20812 [==============================] - 15s 697us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3295 - val\_acc: 0.7981
-Epoch 25/50
-20812/20812 [==============================] - 12s 591us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 26/50
-20812/20812 [==============================] - 12s 584us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 27/50
-20812/20812 [==============================] - 13s 647us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 28/50
-20812/20812 [==============================] - 13s 603us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 29/50
-20812/20812 [==============================] - 14s 660us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 30/50
-20812/20812 [==============================] - 14s 661us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3295 - val\_acc: 0.7981
-Epoch 31/50
-20812/20812 [==============================] - 14s 662us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3295 - val\_acc: 0.7981
-Epoch 32/50
-20812/20812 [==============================] - 15s 700us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 33/50
-20812/20812 [==============================] - 12s 588us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3295 - val\_acc: 0.7981
-Epoch 34/50
-20812/20812 [==============================] - 12s 594us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3295 - val\_acc: 0.7981
-Epoch 35/50
-20812/20812 [==============================] - 12s 590us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 36/50
-20812/20812 [==============================] - 12s 565us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 37/50
-20812/20812 [==============================] - 12s 565us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 38/50
-20812/20812 [==============================] - 12s 570us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 39/50
-20812/20812 [==============================] - 12s 570us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 40/50
-20812/20812 [==============================] - 13s 606us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 41/50
-20812/20812 [==============================] - 11s 543us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 42/50
-20812/20812 [==============================] - 11s 541us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 43/50
-20812/20812 [==============================] - 11s 546us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 44/50
-20812/20812 [==============================] - 11s 539us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 45/50
-20812/20812 [==============================] - 11s 546us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 46/50
-20812/20812 [==============================] - 11s 544us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 47/50
-20812/20812 [==============================] - 13s 615us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 48/50
-20812/20812 [==============================] - 13s 617us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 49/50
-20812/20812 [==============================] - 13s 649us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-Epoch 50/50
-20812/20812 [==============================] - 13s 637us/step - loss: 0.5065 - acc: 0.7956 - val\_loss: 10.3294 - val\_acc: 0.7981
-11893/11893 [==============================] - 3s 268us/step
+Epoch 1/20
+20812/20812 [==============================] - 14s 695us/step - loss: 4.0393 - acc: 0.7487 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 2/20
+20812/20812 [==============================] - 13s 615us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 3/20
+20812/20812 [==============================] - 12s 572us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 4/20
+20812/20812 [==============================] - 12s 555us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 5/20
+20812/20812 [==============================] - 12s 560us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 6/20
+20812/20812 [==============================] - 11s 541us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 7/20
+20812/20812 [==============================] - 12s 598us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 8/20
+20812/20812 [==============================] - 15s 703us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 9/20
+20812/20812 [==============================] - 14s 654us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 10/20
+20812/20812 [==============================] - 12s 600us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 11/20
+20812/20812 [==============================] - 13s 613us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 12/20
+20812/20812 [==============================] - 13s 621us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 13/20
+20812/20812 [==============================] - 14s 692us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 14/20
+20812/20812 [==============================] - 13s 638us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 15/20
+20812/20812 [==============================] - 12s 572us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 16/20
+20812/20812 [==============================] - 13s 622us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 17/20
+20812/20812 [==============================] - 14s 667us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 18/20
+20812/20812 [==============================] - 14s 669us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 19/20
+20812/20812 [==============================] - 12s 573us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+Epoch 20/20
+20812/20812 [==============================] - 13s 637us/step - loss: 3.2946 - acc: 0.7956 - val\_loss: 3.2547 - val\_acc: 0.7981
+11893/11893 [==============================] - 3s 242us/step
 
  Taxa de acerto: 79.62\%
 
     \end{Verbatim}
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_15_1.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_1.png}
     \end{center}
     { \hspace*{\fill} \\}
     
