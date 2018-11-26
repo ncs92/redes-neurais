@@ -1,0 +1,6 @@
+overfit fazer em cima da epoca, mas fazer isso só quando  a taxa de aprendizado estiver regulamentado.
+
+fazer taxa de aprenziado
+adam x sgd 
+
+selection parameter grid search no l1
